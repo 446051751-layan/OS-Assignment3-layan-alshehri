@@ -153,16 +153,22 @@ i checked the commit history and verified that the updated Java file appeared in
 
 ---
 
-### Entry 2 - [Date and Time]
+### Entry 2 - November 15, 2026, 5:30 PM
+
 **What I did**:
+completed feature 1: Ready Queue Lock
 
 **Details**:
+I added a ReentrantLock named Lock to the ReadyQueue class. I used lock() and try/finally with unlock() to protect the add(), poll(), processOf(), and snapshot() methods
 
 **Challenges**:
+I wasn't sure where to place the lock in each method
 
 **Solution**:
+I reviewed each method and placed the lock before accessing the shared data
 
 **Time spent**:
+1 hour
 
 ---
 
