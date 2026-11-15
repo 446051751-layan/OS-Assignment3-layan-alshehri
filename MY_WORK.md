@@ -32,10 +32,10 @@
 
 | Field | Your Answer |
 |-------|-------------|
-| **Full Name** | [Write your full name here] |
-| **Student ID** | [Write your student ID here] |
-| **University Email** | [yourid]@std.psau.edu.sa |
-| **GitHub Username** | [your-github-username] |
+| **Full Name** | layan ayed alshehri |
+| **Student ID** | 446051751 |
+| **University Email** | 446051751@std.psau.edu.sa |
+| **GitHub Username** | 446051751-layan |
 | **Repository Link** | [Paste your repository link here] |
  
 ---
@@ -132,16 +132,24 @@
 
 ## Your Development Log
 
-### Entry 1 - [Date and Time]
+### Entry 1 - November 13, 2026, 8:00 PM
+
 **What I did**:
+set up my GitHub repository and updated my student ID
 
 **Details**:
-
+- forked the starter repository and renamed it
+- made sure the repository was public
+- updated my student ID in the Java file
+  
 **Challenges**:
+i was unsure if my student ID change had been successfully saved to GitHub
 
 **Solution**:
+i checked the commit history and verified that the updated Java file appeared in my repository
 
 **Time spent**:
+40 minutes
 
 ---
 
