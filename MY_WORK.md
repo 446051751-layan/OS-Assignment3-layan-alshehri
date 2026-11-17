@@ -191,29 +191,41 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 ---
 
-### Entry 4 - [Date and Time]
+### Entry 4 - November 17, 2026, 4:00 PM
+
 **What I did**:
+completed feature 3: Counting Semaphore
 
 **Details**:
+I added a Semaphore named readySemaphore to the ReadyQueue class. I used release() when adding a process and acquire() to make the CPUs wait for an available process. I removed the busy waiting code and added conditions to stop the CPUs when all processes were completed
 
 **Challenges**:
+I was unsure how to stop the CPUs that were waiting on the Semaphore after all processes finished
 
 **Solution**:
+I added a condition to check if all processes were completed and used release() to wake up the waiting CPUs so they could stop
 
 **Time spent**:
+40 minutes
 
 ---
 
-### Entry 5 - [Date and Time]
+### Entry 5 - November 17, 2026, 5:00 PM
+
 **What I did**:
+worked on the reflection and technical questions in my_work.md
 
 **Details**:
+i answered the four reflection questions and four technical questions. i used my original and final outputs to answer the questions. i also completed the critical sections table and the summary
 
 **Challenges**:
+some questions were hard to understand especially the questions about lost updates and deadlock
 
 **Solution**:
+i read the questions carefully and reviewed my code and output to understand the answers
 
 **Time spent**:
+1 hour
 
 ---
 
@@ -234,13 +246,16 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 > 💡 **TIP:** Fill this in **last**, after all entries are written.
 
-**Total time spent on assignment**: [X hours]
+**Total time spent on assignment**: 3 hours and 50 minutes
 
 **Most challenging part**:
+understanding how to stop the cpus waiting on the semaphore
 
 **Most interesting learning**:
+learning how locks and semaphores help threads work correctly
 
 **What I would do differently next time**:
+I would start the documentation earlier and review the instructions more carefully
 
 ---
 
@@ -260,7 +275,7 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+i learned that synchronization helps threads use shared data safely. race conditions can happen when two threads read the same value and try to update it at the same time. i used reentrantlock with try/finally to protect critical sections so only one thread can use them at a time. i also used a counting semaphore to make cpus wait for processes instead of checking the queue again and again. i was surprised that two cpus picked p1 and the original program completed only 19 processes instead of 20. after fixing the problems, all 20 processes completed and busy-waiting polls became zero.
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -268,7 +283,7 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+the most challenging part for me was understanding how to stop the cpus at the end. it was hard because some cpus could still be waiting on the semaphore. i learned that they would keep waiting if no more processes were added. to fix this i used release() to wake up the waiting cpus. i also added a condition to make them stop when all processes were completed. after these changes the program finished without getting stuck.
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -276,7 +291,7 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+i overcame the challenges by reading the readme carefully. i tried to understand each feature before changing the code. i made small changes instead of changing everything at once. after each feature, i ran the program to check the results. i also asked for help when i did not understand some parts. at the end i tested the program several times to make sure everything worked correctly.
 
 ## Question 4: Where can synchronization concepts be applied in real-world applications?
 
@@ -284,7 +299,7 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+synchronization is useful in many real applications. in banking apps a lock can protect shared data when two people try to update the same account. in ticket booking apps a lock can stop two people from booking the same seat. websites can also use locks to protect shared counters when many users visit at the same time. a semaphore can be used in a print queue to make printers wait until there is a new job. these examples are similar to my assignment because they use synchronization to manage shared data safely
 
 ### Optional: What would you like to learn more about?
 
@@ -318,20 +333,81 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+in my original run context switches were 37 instead of 38 completed processes were 19 instead of 20 and the other two values were also wrong. for example cpu-1 reads the counter as 12, cpu-2 also reads 12 during the pause, then both write 13 so one update is lost. this race condition can happen even without the pause because threads can run at the same time and it is hard to find because it may not happen in every run
 
 Verification block of the **original starter**:
 ```
-[Paste the verification block (or the exception/watchdog message) of the starter here]
+═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+  Context switches (quanta executed)     expected ٣٨       observed ٣٧       ✘ MISMATCH
+  Completed processes                    expected ٢٠       observed ١٩       ✘ MISMATCH
+  Total service time (ms)                expected ١٤٣٩٧٤   observed ١٤١٣٨٠   ✘ MISMATCH
+  Busy-waiting polls (must be 0)         expected ٠        observed ٤٣٣      ✘ MISMATCH
+  ✘ At least one check failed (see the ✘ lines above): a race condition or busy waiting is still present.
+
+═══ Process Summary Table (nominal ms) ═══
+Process   Priority  Burst       Waiting       Turnaround   
+──────────────────────────────────────────────────────────
+P1        ١٠        ٦٨٧٩        ١١٩٤٠٦        ١٢٦٢٨٥       
+P2        ٥         ٢٥٩٤        ٠             ٠            
+P3        ٤         ٧٨٧٥        ١١٩٢٨٥        ١٢٧١٦٠       
+P4        ١٠        ٩٨٠٨        ١٢١٧٥٢        ١٣١٥٦٠       
+P5        ٦         ٣٥٩٦        ٤١٧٨٩         ٤٥٣٨٥        
+P6        ٦         ٦٤٣٦        ١٢٥٨٨٩        ١٣٢٣٢٥       
+P7        ٧         ١١١٦١       ١٧٤٩٠٤        ١٨٦٠٦٥       
+P8        ٩         ٨٨٧٧        ١٣١٩٣٣        ١٤٠٨١٠       
+P9        ١         ٤٥٥٥        ٥٩٦٠٠         ٦٤١٥٥        
+P10       ١         ٧٧٣٩        ١٣٥٢٥٦        ١٤٢٩٩٥       
+P11       ٥         ٨٨٩٧        ١٣٧١٧٨        ١٤٦٠٧٥       
+P12       ٧         ٦٢٢٦        ١٣٩٧٣٤        ١٤٥٩٦٠       
+P13       ٩         ٥٣٩٧        ١٤٠٨٠٣        ١٤٦٢٠٠       
+P14       ٢         ١٠٥١٤       ١٧٢٧١٦        ١٨٣٢٣٠       
+P15       ٦         ٣٣٧٤        ٨٤٣٥٦         ٨٧٧٣٠        
+P16       ٣         ٤٦٧١        ٨٧٧١٤         ٩٢٣٨٥        
+P17       ٧         ٩٦٨١        ١٤٨٩٨٩        ١٥٨٦٧٠       
+P18       ٢         ٧٥٨٣        ١٥٨٧٧٧        ١٦٦٣٦٠       
+P19       ٧         ٧٧٦٢        ١٦٣٦١٣        ١٧١٣٧٥       
+P20       ٦         ١٠٣٤٩       ١٧١٠٦١        ١٨١٤١٠       
+
 ```
 
 Verification block of **my final version**:
 ```
-[Paste the verification block of your final version here (all lines ✔)]
+
+═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+  Context switches (quanta executed)     expected ٣٨       observed ٣٨       ✔
+  Completed processes                    expected ٢٠       observed ٢٠       ✔
+  Total service time (ms)                expected ١٤٣٩٧٤   observed ١٤٣٩٧٤   ✔
+  Busy-waiting polls (must be 0)         expected ٠        observed ٠        ✔
+  ✔ All shared values are consistent.
+
+═══ Process Summary Table (nominal ms) ═══
+Process   Priority  Burst       Waiting       Turnaround   
+──────────────────────────────────────────────────────────
+P1        ١٠        ٦٨٧٩        ٤٢٨٧٦         ٤٩٧٥٥        
+P2        ٥         ٢٥٩٤        ١٣٥٦          ٣٩٥٠         
+P3        ٤         ٧٨٧٥        ٤٤٢٥٠         ٥٢١٢٥        
+P4        ١٠        ٩٨٠٨        ٤٦٠١٧         ٥٥٨٢٥        
+P5        ٦         ٣٥٩٦        ٩١٣٤          ١٢٧٣٠        
+P6        ٦         ٦٤٣٦        ٤٧١٨٩         ٥٣٦٢٥        
+P7        ٧         ١١١٦١       ٦١٣٦٤         ٧٢٥٢٥        
+P8        ٩         ٨٨٧٧        ٥٠٨٨٣         ٥٩٧٦٠        
+P9        ١         ٤٥٥٥        ١٧٨٢٥         ٢٢٣٨٠        
+P10       ١         ٧٧٣٩        ٥٣٧١٦         ٦١٤٥٥        
+P11       ٥         ٨٨٩٧        ٥٤٨١٣         ٦٣٧١٠        
+P12       ٧         ٦٢٢٦        ٥٦٥٠٤         ٦٢٧٣٠        
+P13       ٩         ٥٣٩٧        ٥٧٧٩٣         ٦٣١٩٠        
+P14       ٢         ١٠٥١٤       ٦٢٧٦٦         ٧٣٢٨٠        
+P15       ٦         ٣٣٧٤        ٣٢٦٦١         ٣٦٠٣٥        
+P16       ٣         ٤٦٧١        ٣٦١٢٩         ٤٠٨٠٠        
+P17       ٧         ٩٦٨١        ٥٨٧٥٤         ٦٨٤٣٥        
+P18       ٢         ٧٥٨٣        ٦٣٢٨٢         ٧٠٨٦٥        
+P19       ٧         ٧٧٦٢        ٦٣٤٦٨         ٧١٢٣٠        
+P20       ٦         ١٠٣٤٩       ٦٥٩٧١         ٧٦٣٢٠        
+
 ```
 
 **Explanation of the timeline:**
-[Explain the lost update step by step.]
+cpu-1 reads the counter as 12, and cpu-2 also reads 12 during the pause. cpu-1 writes 13, then cpu-2 also writes 13. this causes one lost update because the correct value should be 14.
 
 ## Question 2: Critical Sections and Lock Granularity
 
@@ -341,12 +417,19 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+i used a lock to protect the ready queue and another lock to protect the three shared statistics. i used one lock for all three statistics because it is simple but it can make threads wait even when they update different values. i used a different lock for the ready queue so queue operations and statistics updates do not block each other. the locks provide mutual exclusion because only one thread can use each critical section at a time and try/finally helps release the lock so other threads can make progress. the default reentrantlock is not fair so bounded waiting is not guaranteed and some threads may wait longer than others
 
 | Critical section (variable / method) | Lock used | Why it needs protection |
-|---|---|---|
-| [e.g., `ReadyQueue.poll()`] | [lock name] | [reason] |
-| [...] | [...] | [...] |
+| ReadyQueue.add () | Lock | to protect list and map when adding a process |
+| ReadyQueue.poll () |Lock | to stop two cpus from taking the same process |
+| ReadyQueue.processOf() | Lock | to protect reading from map |
+| ReadyQueue.snapshot() | Lock | to protect reading from list and map |
+| incrementContextSwitch() | statsLock | to prevent lost updates in contextSwitchCount |
+| incrementCompletedProcess() | statsLock | to prevent lost updates in completedProcessCount |
+| addServiceTime() | statsLock | to prevent lost updates in totalServiceTime |
+| getContextSwitchCount() | statsLock | to protect reading contextSwitchCount |
+| getCompletedProcessCount() | statsLock | to protect reading completedProcessCount |
+| getTotalServiceTime() | statsLock | to protect reading totalServiceTime |
 
 ## Question 3: Busy Waiting vs Semaphore
 
@@ -356,7 +439,7 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+in the starter the cpu kept checking the empty queue and caused 433 busy waiting polls. my semaphore counts the waiting processes and starts at 0 because the queue is empty then becomes 20 after adding all processes. in my final code the cpu blocks at acquire() instead of checking the queue again and again. the last cpu uses release(totalCPUs) to wake up the waiting cpus so they can stop or the program will stay stuck
 
 ## Question 4: Classical Problems and Deadlock
 
@@ -367,24 +450,24 @@ Verification block of **my final version**:
 **Your Answer:** *(3-5 sentences)*
 
 **Classical problem and roles**:
-[Name the problem; who is the producer, who is the consumer?]
+this is the producer consumer problem because main and cpus that add processes are producers while cpus that take processes are consumers
 
 **Semaphores for a bounded queue (name and initial value)**:
-[Name the three semaphores and their initial values.]
+for a queue of size k the three semaphores are empty = k and full = 0 and mutex = 1
 
 **Deadlock scenario and prevention**:
-[Describe the scenario and the necessary condition you would break.]
+deadlock can happen if a producer holds mutex while waiting on empty because the consumer cannot use the mutex to remove a process. i would prevent this by waiting on empty before taking mutex to break the hold and wait condition
 
 ## Summary
 
 **Key concepts I understood through these questions:**
-1.
-2.
-3.
+1.how race conditions happen
+2.how locks protect shared data
+3.how semaphores stop busy waiting
 
 **Concepts I need to study more:**
-1.
-2.
+1.deadlock and its conditions
+2.how to choose between one lock and multiple locks
 
 ---
 
