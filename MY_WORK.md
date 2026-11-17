@@ -246,13 +246,16 @@ i read the questions carefully and reviewed my code and output to understand the
 
 > 💡 **TIP:** Fill this in **last**, after all entries are written.
 
-**Total time spent on assignment**: [X hours]
+**Total time spent on assignment**: 3 hours and 50 minutes
 
 **Most challenging part**:
+understanding how to stop the cpus waiting on the semaphore
 
 **Most interesting learning**:
+learning how locks and semaphores help threads work correctly
 
 **What I would do differently next time**:
+I would start the documentation earlier and review the instructions more carefully
 
 ---
 
