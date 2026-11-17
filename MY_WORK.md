@@ -36,13 +36,13 @@
 | **Student ID** | 446051751 |
 | **University Email** | 446051751@std.psau.edu.sa |
 | **GitHub Username** | 446051751-layan |
-| **Repository Link** | [Paste your repository link here] |
+| **Repository Link** | https://github.com/446051751-layan/OS-Assignment3-layan-alshehri |
  
 ---
 
 ## 🎥 Video Link
 
-**Video Link**: [Paste your video link here]
+**Video Link**: https://drive.google.com/file/d/17pGB41Wq_QLvuEs-HaiXuCu1nOjOfzOI/view?usp=sharing
 
 > ⚠️ **WARNING:** The video must be **publicly accessible** ("Anyone with the link can view") on **Google Drive**, **YouTube (Unlisted or Public)** or any other cloud file-sharing system. A private, restricted or broken link counts as a **missing video (-1 mark)**.
 >
