@@ -172,16 +172,22 @@ I reviewed each method and placed the lock before accessing the shared data
 
 ---
 
-### Entry 3 - [Date and Time]
+### Entry 3 - November 16, 2026, 7:00 PM
+
 **What I did**:
+completed feature 2: Statistics Locks
 
 **Details**:
+I added a ReentrantLock named statsLock to the SharedStats class. I used the same lock with try/finally to protect the three update methods and three getter methods and ran the program and confirmed that all three statistics matched the expected values
 
 **Challenges**:
+I was unsure whether to use one lock for all three variables or a separate lock for each one
 
 **Solution**:
+I chose one lock because it is easier to manage and protects all three shared variables
 
 **Time spent**:
+30 minutes
 
 ---
 
