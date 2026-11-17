@@ -191,16 +191,22 @@ I chose one lock because it is easier to manage and protects all three shared va
 
 ---
 
-### Entry 4 - [Date and Time]
+### Entry 4 - November 17, 2026, 4:00 PM
+
 **What I did**:
+completed feature 3: Counting Semaphore
 
 **Details**:
+I added a Semaphore named readySemaphore to the ReadyQueue class. I used release() when adding a process and acquire() to make the CPUs wait for an available process. I removed the busy waiting code and added conditions to stop the CPUs when all processes were completed
 
 **Challenges**:
+I was unsure how to stop the CPUs that were waiting on the Semaphore after all processes finished
 
 **Solution**:
+I added a condition to check if all processes were completed and used release() to wake up the waiting CPUs so they could stop
 
 **Time spent**:
+40 minutes
 
 ---
 
