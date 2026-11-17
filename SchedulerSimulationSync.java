@@ -61,13 +61,14 @@ class SharedStats {
     static long totalServiceTime = 0;         // shared accumulator: sum of the CPU time (ms) actually executed
     // Number of times a CPU found the ready queue empty and polled it again (busy waiting). Must be 0 after Feature 3.
     static final java.util.concurrent.atomic.AtomicInteger busyWaitPolls = new java.util.concurrent.atomic.AtomicInteger(0);
-private static ReentrantLock statsLock = new ReentrantLock();
+private static ReentrantLock statsLock = new ReentrantLock(); // feature 2: one lock protects all three shared statistics
 
     // TODO Feature 2: declare the lock(s) protecting the three shared variables above here.
     // Think about it: ONE lock for the three variables, or ONE lock PER variable? (you must justify it in MY_WORK.md)
 
     public static void incrementContextSwitch() {
         // TODO Feature 2: protect this critical section
+        // feature 2: prevent lost updates in the context switch counter
         statsLock.lock();
         try{int tmp = contextSwitchCount;       // 1) read
         RaceWindow.pause();                 //    <- another thread can read the SAME value here
@@ -77,6 +78,7 @@ private static ReentrantLock statsLock = new ReentrantLock();
 
     public static void incrementCompletedProcess() {
         // TODO Feature 2: protect this critical section
+        // feature 2: prevent lost updates in the completed process counter
         statsLock.lock();
        try{ int tmp = completedProcessCount;
         RaceWindow.pause();
@@ -86,6 +88,7 @@ private static ReentrantLock statsLock = new ReentrantLock();
 
     public static void addServiceTime(int ms) {
         // TODO Feature 2: protect this critical section
+        // feature 2: protect the total service time when updating it
         statsLock.lock();
         try{long tmp = totalServiceTime;
         RaceWindow.pause();
@@ -96,6 +99,7 @@ private static ReentrantLock statsLock = new ReentrantLock();
     // Readers must also be protected (a read in the middle of an update is not safe either)
     public static int getCompletedProcessCount() {
         // TODO Feature 2: protect this read
+        // feature 2: protect reading the completed process counter
         statsLock.lock();
         try{return completedProcessCount;}
         finally{statsLock.unlock();}
@@ -103,6 +107,7 @@ private static ReentrantLock statsLock = new ReentrantLock();
 
     public static int getContextSwitchCount() {
         // TODO Feature 2: protect this read
+        // feature 2: protect reading the context switch counter
         statsLock.lock();
         try{return contextSwitchCount;}
         finally{statsLock.unlock();}
@@ -110,6 +115,7 @@ private static ReentrantLock statsLock = new ReentrantLock();
 
     public static long getTotalServiceTime() {
         // TODO Feature 2: protect this read
+        // feature 2: protect reading the total service time
         statsLock.lock();
         try{return totalServiceTime;}
         finally{statsLock.unlock();}
@@ -124,7 +130,7 @@ class ReadyQueue {
     private final Map<Thread, Process> map = new HashMap<>();     // thread -> process (same idea as Assignment 1)
 
     // TODO Feature 1: declare the lock protecting `list` and `map` here
-
+// feature 1: this lock protects the shared list and map
 private ReentrantLock Lock = new ReentrantLock();
 
     // TODO Feature 3: declare the counting semaphore that counts the processes waiting in the ready queue here
@@ -134,6 +140,7 @@ Semaphore readySemaphore = new Semaphore(0);
     // Add a process to the ready queue (new process, or a process that did not finish its quantum)
     public void add(Process process) {
         // TODO Feature 1: protect this critical section
+        // feature 1: protect the queue when adding a process
         Lock.lock();
         
         try{Thread thread = new Thread(process);
@@ -152,6 +159,7 @@ finally{Lock.unlock();}
     // Remove and return the thread at the head of the queue (or null if the queue is empty)
     public Thread poll() {
         // TODO Feature 1: protect this critical section
+        // feature 1: stop two cpus from taking the same process
         Lock.lock();
         try {if (list.isEmpty()) {
             return null;
@@ -164,6 +172,7 @@ finally{Lock.unlock();}
 
     public Process processOf(Thread thread) {
         // TODO Feature 1: protect this access
+        // feature 1: protect reading from the shared map
         Lock.lock();
        try{ return map.get(thread);}
        finally{Lock.unlock();}
@@ -172,6 +181,7 @@ finally{Lock.unlock();}
     // Names of the processes currently waiting in the queue (used to display the ready queue)
     public String snapshot() {
         // TODO Feature 1: protect this critical section
+        // feature 1: protect reading the list and map
         Lock.lock();
         try {StringBuilder sb = new StringBuilder();
         for (Thread t : list) {
